@@ -1,6 +1,13 @@
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
+const WebSocket = require('ws');
+
+const ws = new WebSocket('ws://localhost:4000', {
+  perMessageDeflate: false
+});
+
+console.log(ws);
 
 new WebpackDevServer(webpack(config), {
     publicPath: config.output.publicPath,
