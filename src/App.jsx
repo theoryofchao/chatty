@@ -1,28 +1,18 @@
 import React, {Component} from 'react';
+import AppGlobal from './AppGlobal.jsx';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 
-var appData = {
-                currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
-                messages: [
-                            {
-                              id: 1,
-                              username: "Bob",
-                              content: "Has anyone seen my marbles?",
-                            },
-                            {
-                              id: 2,
-                              username: "Anonymous",
-                              content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-                            }
-                          ]
-};
-
 class App extends Component {
-  
-  constructor(props) {
-    super(props);
-    this.state = appData;
+
+  componentDidMount() {
+    console.log("componentDidMount <App/>");
+    setTimeout(() => {
+      console.log("Simulating incoming message");
+      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
+      tx.addMessage(newMessage);
+      console.log(state.messages);
+    }, 3000);
   }
 
   render() {
@@ -31,12 +21,11 @@ class App extends Component {
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
-        <MessageList messages={ this.state.messages}/>
-        <ChatBar currentUser={this.state.currentUser}/>
+        <MessageList messages={ state.messages }/>
+        <ChatBar currentUser={ state.currentUser }/>
       </div>
     );
   }
 }
-
 
 export default App;
