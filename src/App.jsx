@@ -13,8 +13,33 @@ class App extends Component {
     console.log("componentDidMount <App/>");
 
     socket.onmessage = (event) => {
-      //console.log(event);
-      tx.getMessage(JSON.parse(event.data));
+      console.log(event.data);
+      const data = JSON.parse(event.data);
+      switch(data.type){
+        case "incomingMessage":
+          tx.getMessage(JSON.parse(event.data));
+          break;
+
+        case "incomingNotification":
+          tx.getMessage(JSON.parse(event.data));
+          break;
+
+        case "color":
+          console.log(JSON.parse(event.data));
+          tx.setTextColor(JSON.parse(event.data));
+          break;
+
+        case "numUsers":
+          tx.getUserCount(JSON.parse(event.data));
+          break;
+
+        default:
+          throw new Error("Unknown event type " + data.type);
+          break;
+      }
+
+
+      
     }; 
 
     if(socket) {
@@ -28,7 +53,8 @@ class App extends Component {
     return (
       <div className="wrapper">
         <nav className="navbar">
-          <a href="/" className="navbar-brand">Chatty</a>
+          <img className="navbar-doge" src="/images/doge60.png"/><a href="/" className="navbar-brand">Doge-y</a>
+          <div className="navbar-users-online">{state.userCount} Users Online</div>
         </nav>
         <MessageList messages={ state.messages }/>
         <ChatBar currentUser={ state.currentUser } socket = {socket}/>
