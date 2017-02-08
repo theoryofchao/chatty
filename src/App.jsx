@@ -3,16 +3,25 @@ import AppGlobal from './AppGlobal.jsx';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 
+const socket = new WebSocket('ws://localhost:4000');
+
 class App extends Component {
+
+
 
   componentDidMount() {
     console.log("componentDidMount <App/>");
-    setTimeout(() => {
-      console.log("Simulating incoming message");
-      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-      tx.addMessage(newMessage);
-      console.log(state.messages);
-    }, 3000);
+
+    socket.onmessage = (event) => {
+      //console.log(event);
+      tx.getMessage(JSON.parse(event.data));
+    }; 
+
+    if(socket) {
+      console.log("connected to server");
+    }
+    //Force re-render to update socket
+    // this.forceUpdate();
   }
 
   render() {
@@ -22,7 +31,7 @@ class App extends Component {
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
         <MessageList messages={ state.messages }/>
-        <ChatBar currentUser={ state.currentUser }/>
+        <ChatBar currentUser={ state.currentUser } socket = {socket}/>
       </div>
     );
   }

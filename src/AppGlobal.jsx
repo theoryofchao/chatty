@@ -2,17 +2,7 @@ import React, {Component} from 'react';
 
 let appData = {
   currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
-  messages: 
-  [
-    {
-      username: "Bob",
-      content: "Has anyone seen my marbles?",
-    },
-    {
-      username: "Anonymous",
-      content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-    }
-  ]
+  messages: []
 };
 
 const setState = (newState) => {
@@ -26,9 +16,16 @@ window.state = appData;
 
 window.tx = {};
 
-tx.addMessage = (newMessage) => {
+tx.addMessage = (newMessage, socket) => {
+  //let updatedMessages = state.messages;
+  //updatedMessages.push(newMessage);
+  socket.send(JSON.stringify(newMessage));
+  //setState({messages: updatedMessages});
+};
+
+tx.getMessage = (message) => {
   let updatedMessages = state.messages;
-  updatedMessages.push(newMessage);
+  updatedMessages.push(message);
   setState({messages: updatedMessages});
 };
 

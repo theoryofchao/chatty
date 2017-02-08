@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 
-  const handleKeyPress = (event) => {
+  const handleKeyPress = (event, socket) => {
     if(event.keyCode == 13) {
       let message = {username: state.currentUser.name, content: event.target.value};
-      tx.addMessage(message);
+      tx.addMessage(message, socket);
       event.target.value="";
     }
   }
@@ -17,7 +17,7 @@ class ChatBar extends Component {
     return (
       <div className="chatbar">
         <input className="chatbar-username" type="text" placeholder={this.props.currentUser.name} />
-        <input className="chatbar-message" type="text" onKeyUp={(event) => { handleKeyPress(event) }} placeholder="Type a message and hit ENTER" />
+        <input className="chatbar-message" type="text" onKeyUp={(event) => { handleKeyPress(event, this.props.socket) }} placeholder="Type a message and hit ENTER" />
       </div>
     );
   }
