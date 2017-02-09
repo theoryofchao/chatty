@@ -13,7 +13,7 @@ class App extends Component {
     console.log("componentDidMount <App/>");
 
     socket.onmessage = (event) => {
-      console.log(event.data);
+      //console.log(event.data);
       const data = JSON.parse(event.data);
       switch(data.type){
         case "incomingMessage":
@@ -25,7 +25,6 @@ class App extends Component {
           break;
 
         case "color":
-          console.log(JSON.parse(event.data));
           tx.setTextColor(JSON.parse(event.data));
           break;
 
@@ -49,15 +48,26 @@ class App extends Component {
     // this.forceUpdate();
   }
 
+  
+
   render() {
+
+  let coolcat = null;
+  if(state.userCount > 1) {
+    coolcat = <div className="navbar-users-online">{state.userCount} Cool Cats Online</div>;
+  }
+  else {
+    coolcat = <div className="navbar-users-online">{state.userCount} Cool Cat Online</div>;
+  }
+
     return (
       <div className="wrapper">
         <nav className="navbar">
           <img className="navbar-doge" src="/images/doge60.png"/><a href="/" className="navbar-brand">Doge-y</a>
-          <div className="navbar-users-online">{state.userCount} Users Online</div>
+          <img className="navbar-cat" src="/images/heavybreathingcat60.png"/>{coolcat}
         </nav>
         <MessageList messages={ state.messages }/>
-        <ChatBar currentUser={ state.currentUser } socket = {socket}/>
+        <ChatBar currentUser={ state.currentUser } socket = {socket} color={ state.color }/>
       </div>
     );
   }

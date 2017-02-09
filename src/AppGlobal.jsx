@@ -24,26 +24,26 @@ tx.addMessage = (newMessage, socket) => {
 
 tx.changeUsername = (oldUsername, newUsername, socket) => {
   let username = {name: newUsername};
-  let notification = {type: `postNotification`, content: `${oldUsername} has changed their name to ${newUsername}`};
+  let tempOldUsername = oldUsername ? oldUsername : "Anonymous";
+
+  let notification = {type: `postNotification`, content: `${tempOldUsername} has changed their name to ${newUsername}`};
   setState({currentUser: username});
   tx.addMessage(notification, socket);
 };
 
 tx.getMessage = (message) => {
   let updatedMessages = state.messages;
+  console.log(state.messages.color);
   updatedMessages.push(message);
   setState({messages: updatedMessages});
 };
 
 tx.getUserCount = (countObj) => {
-  console.log(countObj.numUsers);
   setState({userCount: countObj.numUsers});
 };
 
 tx.setTextColor = (textColor) => {
-  console.log(textColor);
   setState({color: textColor.color});
-  console.log(state.color);
 };
 
 class AppGlobal extends Component {
