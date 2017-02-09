@@ -33,7 +33,6 @@ tx.changeUsername = (oldUsername, newUsername, socket) => {
 
 tx.getMessage = (message) => {
   let updatedMessages = state.messages;
-  console.log(state.messages.color);
   updatedMessages.push(message);
   setState({messages: updatedMessages});
 };
